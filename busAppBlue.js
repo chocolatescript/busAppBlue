@@ -31,7 +31,7 @@ function getDestination() {
 // todo: make this function extract the part you need:
 function alertParameter(destinationInfo, currentDestination) {
     var duration = destinationInfo.routes[0].legs[0].duration.value;
-    alert(duration.parseInt + " seconds to get to " + currentDestination); // FIXME: Maisha, you need to get this value along with the current bus location and the destination into the database!
+    alert(duration.toString() + " seconds to get to " + currentDestination); // FIXME: Maisha, you need to get this value along with the current bus location and the destination into the database!
 }
 
 //Determines longitude and latitude 
@@ -41,7 +41,8 @@ function showPosition(position) {
     var latLong = lat.toString() + "," + long.toString();
     console.log(latLong);
     var currentDestination = getDestination();
-    getDirectionInfo(latLong, currentDestination, (function(destinationInfo) {alertParameter(destinationInfo, currentDestination)}));
+    var anonymousFn = function(destinationInfo) { alertParameter(destinationInfo, currentDestination); };
+    getDirectionInfo(latLong, currentDestination, anonymousFn);
 }
 
 function getLocation() {
