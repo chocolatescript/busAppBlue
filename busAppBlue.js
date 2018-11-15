@@ -1,12 +1,3 @@
-function fakeCurrentLatLon() {
-    return {
-        coords: {
-            latitude: "37.357189664593086",
-            longitude: "-121.9844764457143"
-        }
-    }
-}
-
 function getDirectionInfo(currentLocation, destination, callback) {
     var xhr = new XMLHttpRequest();
     var uri = "https://www.jayteesf.com/test/geo.json?origin=" + currentLocation + "&destination=" + destination;
