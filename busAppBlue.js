@@ -1,7 +1,3 @@
-function oldFakeCurrentLatLon() {
-    return "37.357189664593086,-121.9844764457143"
-}
-
 function fakeCurrentLatLon() {
     return {
         coords: {
@@ -29,9 +25,11 @@ function getDestination() {
 }
 
 // todo: make this function extract the part you need:
-function alertParameter(destinationInfo, currentDestination) {
+function alertParameter(destinationInfo, currentDestination, now) {
     var duration = destinationInfo.routes[0].legs[0].duration.value;
-    alert(duration.toString() + " seconds to get to " + currentDestination); // FIXME: Maisha, you need to get this value along with the current bus location and the destination into the database!
+    
+    //FIXME: stuff this information in a database so the other app can know how-long till the bus arrives:
+    alert(duration.toString() + " seconds to get to " + currentDestination + " as of " + now.toString());
 }
 
 //Determines longitude and latitude 
@@ -41,14 +39,19 @@ function showPosition(position) {
     var latLong = lat.toString() + "," + long.toString();
     console.log(latLong);
     var currentDestination = getDestination();
-    var anonymousFn = function(destinationInfo) { alertParameter(destinationInfo, currentDestination); };
+    
+    // get the currenttime (in seconds)
+    var date = new Date();
+    var now = date.getTime();
+
+    var anonymousFn = function(destinationInfo) { alertParameter(destinationInfo, currentDestination, now); };
     getDirectionInfo(latLong, currentDestination, anonymousFn);
 }
 
 function getLocation() {
-    //navigator.geolocation.getCurrentPosition(showPosition);
+    navigator.geolocation.getCurrentPosition(showPosition);
     // until you're on an iphone or this is hosted on a website use this:
-    showPosition(fakeCurrentLatLon())
+    //showPosition(fakeCurrentLatLon())
 }
 
 
@@ -70,4 +73,3 @@ function clearTimer(currentTimer = timer) {
 // Nov 14, 2018 - need to use timers ...but how?
 // you rightly searched (google) for: 'w3schools timer in javascript'
 // got to: https://www.w3schools.com/jsref/met_win_setinterval.asp
-// (ok, a little help from Baba on picking what link to look at :-) )
